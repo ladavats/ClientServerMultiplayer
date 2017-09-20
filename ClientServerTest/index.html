@@ -47,7 +47,13 @@
         };
 
         connection.onopen = function (message) {
-            //var userId = message.currentTarget.url.split("=")[1];
+            var connectingUserId = message.currentTarget.url.split("=")[1];
+        }
+
+        connection.onclose = function (message) {
+            console.log("onClose");
+            var disconnectingUserId = message.currentTarget.url.split("=")[1];
+            entityRepository.removeEntity(disconnectingUserId);
         }
 
         $("#btnSend").click(function() {
@@ -74,7 +80,7 @@
             context.clearRect();
 
             entityRepository.update();
-            entityRepository.draw(context);
+            entityRepository.draw(context,userId);
 
             context.drawCircle(mouse_x, mouse_y, 10, 'white');
         }

@@ -10,8 +10,8 @@ namespace Server.Entity
         //Fix this so we only send the onec that has been updated.
         public IEnumerable<EntityPosition> GetUpdatedEntityPositions()
         {
-            //return Entities.Where(o => o.HasMoved).Select(e=> new EntityPosition() { UserId =  e.UserId, X = e.X, Y = e.Y});
-            return Entities.Select(e => new EntityPosition() { UserId = e.UserId, X = e.X, Y = e.Y });
+            return Entities.Where(o => o.HasMoved).Select(e=> new EntityPosition() { UserId =  e.UserId, X = e.X, Y = e.Y});
+            //return Entities.Select(e => new EntityPosition() { UserId = e.UserId, X = e.X, Y = e.Y });
         }
 
         public void Connect(Entity entity)
@@ -27,10 +27,11 @@ namespace Server.Entity
         public void UpdatePosition(EntityPositionUpdateRequest updateRequest)
         {
             var entity = Entities.First(o => o.UserId == updateRequest.UserId);
-            entity.PreviousX = entity.X;
-            entity.PreviousY = entity.Y;
+            if (Equals(entity.X, updateRequest.X) && Equals(entity.Y, updateRequest.Y)) return;
+
             entity.X = updateRequest.X;
             entity.Y = updateRequest.Y;
+            entity.HasMoved = true;
         }
     }
 }

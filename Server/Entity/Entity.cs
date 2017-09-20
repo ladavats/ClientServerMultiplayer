@@ -15,11 +15,10 @@ namespace Server.Entity
     {
         public float X { get; set; }
         public float Y { get; set; }
-        public float PreviousX { get; set; }
-        public float PreviousY { get; set; }
+        
         public string Color { get; set; }
 
-        public bool HasMoved => (!Equals(PreviousX,X) && !Equals(PreviousY, Y));
+        public bool HasMoved { get; set; }
 
         public Entity(string userId, float x, float y)
         {
@@ -27,9 +26,7 @@ namespace Server.Entity
             X = x;
             Y = y;
 
-            PreviousX = x;
-            PreviousY = y;
-
+            HasMoved = false;
             var rnd = new Random();
             Color = $"#{rnd.Next(0x1000000):X6}";
             MessageType = "Entity";

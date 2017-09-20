@@ -3,6 +3,7 @@
     constructor() {
 
         this.entities = [];
+        this.drawClientEntity = true;
     }
 
     entityExists(userId) {
@@ -18,8 +19,16 @@
         this.entities.push(entity);
     }
 
-    removeEntity(entity) {
-
+    removeEntity(userId) {
+        var removeIndex = -1;
+        for (var i = 0; i < this.entities.length; i++) {
+            if (this.entities[i].userId === userId) {
+                removeIndex = i;
+                continue;
+            }
+        }
+        if (removeIndex !== -1)
+            this.entities.splice(removeIndex, 1);
     }
 
     addEntityPositions(entityPositions) {
@@ -44,8 +53,12 @@
         }
     }
 
-    draw(context) {
+    draw(context, userId) {
         for (var i = 0; i < this.entities.length; i++) {
+
+            if (this.entities[i].userId === userId && !this.drawClientEntity)
+                continue;
+
             this.entities[i].draw(context);
         }
     }

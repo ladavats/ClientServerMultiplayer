@@ -15,7 +15,6 @@ namespace Server
         private static readonly EntityRepository EntityRepository = new EntityRepository();
 
         //here we have lists that we loads up before the game starts and any client can connect.
-        //private static List<Entity> Entities { get; set; } = new List<Entity>();
         public string UserId { get; set; }
 
         private static readonly Timer BroadCastTimer = new Timer(200); //30 FPS
