@@ -1,28 +1,8 @@
-﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Server
+namespace Server.Entity
 {
-    [Serializable]
-    public class EntitiesPositionsResponse : WebSocketMessage
-    {
-        public IEnumerable<EntityPosition> EntityPositions { get; set; }
-
-        public EntitiesPositionsResponse(IEnumerable<EntityPosition> entityPositions)
-        {
-            EntityPositions = entityPositions;
-            MessageType = WebSocketMessageTypes.EntitiesPositionsResponse;
-        }
-    }
-
-    public class EntityPosition
-    {
-        public string UserId { get; set; }
-        public float X { get; set; }
-        public float Y { get; set; }
-    }
-
     public class EntityRepository
     {
         public List<Entity> Entities { get; set; } = new List<Entity>();

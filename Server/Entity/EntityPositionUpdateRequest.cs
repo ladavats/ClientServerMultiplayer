@@ -1,4 +1,4 @@
-namespace Server
+namespace Server.Entity
 {
     public class EntityPositionUpdateRequest : WebSocketMessage
     {

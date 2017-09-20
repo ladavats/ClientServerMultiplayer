@@ -1,10 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Timers;
 using System.Web.Script.Serialization;
 using Microsoft.Web.WebSockets;
 using Newtonsoft.Json;
+using Server.Entity;
 
 namespace Server
 {
@@ -39,7 +38,7 @@ namespace Server
         public override void OnOpen()
         {
             Clients.Add(this);
-            EntityRepository.Connect(new Entity(UserId, 50, 90));
+            EntityRepository.Connect(new Entity.Entity(UserId, 50, 90));
         }
 
         public override void OnMessage(string message)

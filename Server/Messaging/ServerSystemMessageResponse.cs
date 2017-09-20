@@ -3,8 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.UI.WebControls.WebParts;
+using Server.Entity;
 
-namespace Server
+namespace Server.Messaging
 {
     public class ServerSystemMessageResponse : WebSocketMessage
     {
