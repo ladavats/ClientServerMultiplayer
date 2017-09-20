@@ -87,6 +87,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Entity\EntitiesPositionsResponse.cs" />
+    <Compile Include="Entity\EntityConnectedResponse.cs" />
     <Compile Include="Entity\EntityPosition.cs" />
     <Compile Include="Entity\EntityPositionUpdateRequest.cs" />
     <Compile Include="Entity\EntityRepository.cs" />

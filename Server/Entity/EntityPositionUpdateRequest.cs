@@ -4,12 +4,12 @@ namespace Server.Entity
     {
         public float X { get; set; }
         public float Y { get; set; }
+        public new string MessageType => this.GetType().ToString();
 
         public EntityPositionUpdateRequest(float x, float y)
         {
             X = x;
             Y = y;
-            MessageType = WebSocketMessageTypes.EntityPositionUpdateRequest;
         }
     }
 }

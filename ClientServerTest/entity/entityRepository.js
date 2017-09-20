@@ -47,6 +47,23 @@
         }
     }
 
+    clientPositionIsTheSame(userId, x, y) {
+        var client = this.getClientEntity(userId);
+        if (client === null)
+            return false;
+
+        return client.positionIsTheSame(userId, x, y);
+    }
+
+    getClientEntity(userId) {
+        for (var i = 0; i < this.entities.length; i++) {
+            if (this.entities[i].userId === userId) {
+                return this.entities[i];
+            }
+        }
+        return null;
+    }
+
     update() {
         for (var i = 0; i < this.entities.length; i++) {
             this.entities[i].update();

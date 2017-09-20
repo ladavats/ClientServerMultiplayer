@@ -7,11 +7,11 @@ namespace Server.Entity
     public class EntitiesPositionsResponse : WebSocketMessage
     {
         public IEnumerable<EntityPosition> EntityPositions { get; set; }
+        public new string MessageType => this.GetType().ToString();
 
         public EntitiesPositionsResponse(IEnumerable<EntityPosition> entityPositions)
         {
             EntityPositions = entityPositions;
-            MessageType = WebSocketMessageTypes.EntitiesPositionsResponse;
         }
     }
 }

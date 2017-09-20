@@ -18,6 +18,10 @@
         this.FRAMES_COUNT_PER_SERVER_TICKS = 7;
     }
 
+    positionIsTheSame(x, y) {
+        return (x === this.x && y === this.y);
+    }
+
     update_velocity() {
 
         if (this.positions.length === 0) { return; }
@@ -28,7 +32,7 @@
 
         if (this.target_is_set === false) {
             var target = this.positions.pop();
-            if (target == null)
+            if (target === null)
                 return;
 
             this.target_x = target.x;

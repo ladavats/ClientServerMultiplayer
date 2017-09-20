@@ -46,7 +46,7 @@ namespace Server
 
             switch (messageType.MessageType)
             {
-                case WebSocketMessageTypes.EntityPositionUpdateRequest:
+                case "EntityPositionUpdateRequest":
                     var entityPositionUpdateRequest = JsonConvert.DeserializeObject<EntityPositionUpdateRequest>(message);
                     EntityRepository.UpdatePosition(entityPositionUpdateRequest);
                     break;

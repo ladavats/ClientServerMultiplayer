@@ -41,20 +41,10 @@
 
         connection.onmessage = function (message) {
             const response = JSON.parse(message.data);
-            if (response.MessageType === "EntitiesPositionsResponse") {
+            if (response.MessageType === "Server.Entity.EntitiesPositionsResponse") {
                 entityRepository.addEntityPositions(response.EntityPositions);
             }
         };
-
-        connection.onopen = function (message) {
-            var connectingUserId = message.currentTarget.url.split("=")[1];
-        }
-
-        connection.onclose = function (message) {
-            console.log("onClose");
-            var disconnectingUserId = message.currentTarget.url.split("=")[1];
-            entityRepository.removeEntity(disconnectingUserId);
-        }
 
         $("#btnSend").click(function() {
             var messageText = $("#messageText").val();
@@ -88,7 +78,12 @@
 
         //send to server.
         function send() {
-            connection.send(JSON.stringify({ MessageType: "EntityPositionUpdateRequest", UserId: userId,X:mouse_x,Y:mouse_y}));
+            connection.send(JSON.stringify({
+                    MessageType: "EntityPositionUpdateRequest",
+                    UserId: userId,
+                    X: mouse_x,
+                    Y: mouse_y
+                }));
         }
         setInterval(send, 100);
 
