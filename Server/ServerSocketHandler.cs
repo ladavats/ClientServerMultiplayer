@@ -34,12 +34,12 @@ namespace Server
         private static void Broadcast(object sender, ElapsedEventArgs e)
         {
             //send out all the clients that has previous value set. otherwise there has not been two position resported to the server.
-            Clients.Broadcast(Serializer.Serialize(new EntitiesPositionsResponse(EntityRepository.EntityPositions)));
+            Clients.Broadcast(Serializer.Serialize(new EntitiesPositionsResponse(EntityRepository.GetUpdatedEntityPositions())));
         }
         public override void OnOpen()
         {
             Clients.Add(this);
-            EntityRepository.Add(new Entity(UserId, 50, 90));
+            EntityRepository.Connect(new Entity(UserId, 50, 90));
         }
 
         public override void OnMessage(string message)
@@ -59,7 +59,7 @@ namespace Server
 
         public override void OnClose()
         {
-            EntityRepository.Remove(this.UserId);
+            EntityRepository.Close(UserId);
             Clients.Remove(this);
         }
     }

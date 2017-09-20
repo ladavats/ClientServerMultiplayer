@@ -42,7 +42,7 @@
         connection.onmessage = function (message) {
             const response = JSON.parse(message.data);
             if (response.MessageType === "EntitiesPositionsResponse") {
-                entityRepository.addEntityPositions(response.Entities);
+                entityRepository.addEntityPositions(response.EntityPositions);
             }
         };
 
