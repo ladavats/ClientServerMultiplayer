@@ -10,10 +10,13 @@ namespace Server
 {
     public class ServerSocketHandler : WebSocketHandler
     {
+
         private static readonly WebSocketCollection Clients = new WebSocketCollection();
         private static readonly JavaScriptSerializer Serializer = new JavaScriptSerializer();
+        private static readonly EntityRepository EntityRepository = new EntityRepository();
+
         //here we have lists that we loads up before the game starts and any client can connect.
-        private static List<Entity> Entities { get; set; } = new List<Entity>();
+        //private static List<Entity> Entities { get; set; } = new List<Entity>();
         public string UserId { get; set; }
 
         private static readonly Timer BroadCastTimer = new Timer(200); //30 FPS
@@ -31,15 +34,12 @@ namespace Server
         private static void Broadcast(object sender, ElapsedEventArgs e)
         {
             //send out all the clients that has previous value set. otherwise there has not been two position resported to the server.
-            Clients.Broadcast(Serializer.Serialize(new EntitiesPositionsResponse(Entities)));
+            Clients.Broadcast(Serializer.Serialize(new EntitiesPositionsResponse(EntityRepository.EntityPositions)));
         }
         public override void OnOpen()
         {
             Clients.Add(this);
-            var random = new Random();
-            Entities.Add(new Entity(UserId,50,90));
-            //Clients.Broadcast(Serializer.Serialize(new WorldSnapShotResponse(Entities)));
-            //this.Send("Only for me");
+            EntityRepository.Add(new Entity(UserId, 50, 90));
         }
 
         public override void OnMessage(string message)
@@ -50,9 +50,7 @@ namespace Server
             {
                 case WebSocketMessageTypes.EntityPositionUpdateRequest:
                     var entityPositionUpdateRequest = JsonConvert.DeserializeObject<EntityPositionUpdateRequest>(message);
-                    var entity = Entities.First(o => o.UserId == entityPositionUpdateRequest.UserId);
-                    entity.X = entityPositionUpdateRequest.X;
-                    entity.Y = entityPositionUpdateRequest.Y;
+                    EntityRepository.UpdatePosition(entityPositionUpdateRequest);
                     break;
                 default:
                     throw new Exception("Message Type Not Supported!");
@@ -61,12 +59,8 @@ namespace Server
 
         public override void OnClose()
         {
-
-            Entities.Remove(Entities.First(o=>o.UserId == this.UserId));
-            //Clients.Broadcast("Player has left the game!");
-            
+            EntityRepository.Remove(this.UserId);
             Clients.Remove(this);
-            //Clients.Broadcast(Serializer.Serialize(new EntityMovementResponse(Entities)));
         }
     }
 }
