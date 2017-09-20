@@ -1,0 +1,115 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>Client</title>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.3/jquery.min.js"></script>
+    <script src="canvas/context.js"></script>
+    <!--<script src="io/input.js"></script>  FIX --> 
+    <script src="entity/entity.js"></script>
+    <script src="entity/entityRepository.js"></script>
+    <style>
+        #mycanvas {
+            border: 1px solid red;
+            background-color: blue;
+        }
+    </style>
+  
+</head>
+<body>
+<canvas id="mycanvas" width="1000" height="500"></canvas><br />
+<input id="messageText" type="text"/>
+<input id="btnSend" type="button" value="Send Message"/>
+<div id="messages"></div>
+
+</body>
+</html>
+
+<script>
+
+
+    //next step, make class of Entity and then connect two clients.
+    $(document).ready(function() {
+        var context = new Context('mycanvas');
+        var entityRepository = new EntityRepository();
+        //var input = new Input();
+        var userId = makeid();
+        var mouse_x = 0;
+        var mouse_y = 0;
+     
+        var connection = new WebSocket("ws://localhost:9001/ServerWebSocketHandler.ashx?userId=" + userId);
+
+        connection.onmessage = function (message) {
+            const response = JSON.parse(message.data);
+            if (response.MessageType === "EntitiesPositionsResponse") {
+                entityRepository.addEntityPositions(response.Entities);
+            }
+        };
+
+        connection.onopen = function (message) {
+            //var userId = message.currentTarget.url.split("=")[1];
+        }
+
+        $("#btnSend").click(function() {
+            var messageText = $("#messageText").val();
+            connection.send(JSON.stringify({
+                MessageType: "EntityMessageRequest",
+                SendByUserId: userId,
+                MessageText: messageText
+            }));
+        });
+
+        function makeid() {
+            var text = "";
+            var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+
+            for (var i = 0; i < 5; i++)
+                text += possible.charAt(Math.floor(Math.random() * possible.length));
+
+            return text;
+        }
+
+      
+        function mainLoop() {
+            context.clearRect();
+
+            entityRepository.update();
+            entityRepository.draw(context);
+
+            context.drawCircle(mouse_x, mouse_y, 10, 'white');
+        }
+        setInterval(mainLoop, 30);
+
+        //send to server.
+        function send() {
+            connection.send(JSON.stringify({ MessageType: "EntityPositionUpdateRequest", UserId: userId,X:mouse_x,Y:mouse_y}));
+        }
+        setInterval(send, 100);
+
+        function findPos(obj) {
+            var curleft = 0, curtop = 0;
+            if (obj.offsetParent) {
+                do {
+                    curleft += obj.offsetLeft;
+                    curtop += obj.offsetTop;
+                } while (obj = obj.offsetParent);
+                return { x: curleft, y: curtop };
+            }
+            return undefined;
+        }
+
+        $('#mycanvas').mousemove(function (e) {
+            var pos = findPos(this);
+            mouse_x = e.pageX - pos.x;
+            mouse_y = e.pageY - pos.y;
+        });
+
+        $("body").keydown(function(e) {
+            if (e.keyCode == 37) { // left
+            } else if (e.keyCode == 39) { // right
+            } else if (e.keyCode == 40) {
+            } else if (e.keyCode == 38) {
+            }
+        });
+    });
+</script>
