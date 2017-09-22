@@ -26,8 +26,8 @@
     }
 
     drawText(messageText,x,y) {
-        this.context.fillStyle = "white";
-        this.context.font = "bold 16px Arial";
+        this.context.fillStyle = "cyan";
+        this.context.font = "bold 11px Verdana";
         this.context.fillText(messageText, x, y);
     }
 }

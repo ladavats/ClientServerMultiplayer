@@ -19,6 +19,8 @@
 
         this.previous_x = x;
         this.previous_y = y;
+
+        this.MINIMUM_DIFF_FOR_ACCEPTING_AT_POSITION = 1;
     }
     
     update_velocity() {
@@ -55,7 +57,7 @@
             //try to solve this with ticks instead of calculating the positions.
             var deltax = this.target_x - this.x;
             var deltay = this.target_y - this.y;
-            if (Math.abs(deltax) < 1 && Math.abs(deltay) < 1) {
+            if (Math.abs(deltax) < this.MINIMUM_DIFF_FOR_ACCEPTING_AT_POSITION && Math.abs(deltay) < this.MINIMUM_DIFF_FOR_ACCEPTING_AT_POSITION) {
                 //make sure to adjust the player at the exact position if drifted
                 this.x = this.target_x;
                 this.y = this.target_y;
@@ -81,6 +83,6 @@
     draw(context) {
         context.drawCircle(this.x, this.y, 15, "blue"); //server interpolated entity
         context.drawCircle(this.target_x, this.target_y, 10, "yellow"); //target position
-        context.drawText(this.userId, this.x, this.y - 20);
+        context.drawText(this.userId, this.x - 10, this.y - 30);
     }
 }
