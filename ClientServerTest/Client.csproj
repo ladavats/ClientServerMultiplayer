@@ -76,6 +76,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="canvas\context.js" />
+    <Content Include="entity\clientEntity.js" />
     <Content Include="entity\entity.js" />
     <Content Include="entity\entityRepository.js" />
     <Content Include="index.html" />

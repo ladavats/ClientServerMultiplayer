@@ -21,9 +21,9 @@
         this.context.stroke();
     }
 
-    drawText(messageText) {
+    drawText(messageText,x,y) {
         this.context.fillStyle = "white";
         this.context.font = "bold 16px Arial";
-        this.context.fillText(messageText, 30, 40);
+        this.context.fillText(messageText, x, y);
     }
 }

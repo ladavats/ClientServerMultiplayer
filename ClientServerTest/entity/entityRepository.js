@@ -3,7 +3,7 @@
     constructor() {
 
         this.entities = [];
-        this.drawClientEntity = true;
+        this.DRAW_CLIENT_ENTITY = false;
     }
 
     entityExists(userId) {
@@ -47,35 +47,6 @@
         }
     }
 
-
-    setEntityPreviousPosition(userId, x, y) {
-        for (var i = 0; i < this.entities.length; i++) {
-            if (this.entities[i].userId === userId) {
-                this.entities[i].previous_x = x;
-                this.entities[i].previous_y = y;
-                continue;
-            }
-        }
-    }
-
-    entityPreviousPositionIsTheSame(userId,x,y) {
-        for (var i = 0; i < this.entities.length; i++) {
-            if (this.entities[i].userId === userId && this.entities[i].previous_x === x && this.entities[i].previous_y === y) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    getClientEntity(userId) {
-        for (var i = 0; i < this.entities.length; i++) {
-            if (this.entities[i].userId === userId) {
-                return this.entities[i];
-            }
-        }
-        return null;
-    }
-
     update() {
         for (var i = 0; i < this.entities.length; i++) {
             this.entities[i].update();
@@ -85,7 +56,7 @@
     draw(context, userId) {
         for (var i = 0; i < this.entities.length; i++) {
 
-            if (this.entities[i].userId === userId && !this.drawClientEntity)
+            if (this.entities[i].userId === userId && !this.DRAW_CLIENT_ENTITY)
                 continue;
 
             this.entities[i].draw(context);

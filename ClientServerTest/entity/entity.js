@@ -82,5 +82,6 @@
         //console.log(this.y + " " +this.y);
         context.drawCircle(this.x, this.y, 15, "blue"); //server interpolated entity
         context.drawCircle(this.target_x, this.target_y, 10, "yellow"); //target position
+        context.drawText(this.userId, this.x, this.y - 20);
     }
 }

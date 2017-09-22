@@ -7,7 +7,10 @@
     <script src="canvas/context.js"></script>
     <!--<script src="io/input.js"></script>  FIX --> 
     <script src="entity/entity.js"></script>
+    <script src="entity/clientEntity.js"></script>
     <script src="entity/entityRepository.js"></script>
+    
+    
     <style>
         #mycanvas {
             border: 1px solid red;
@@ -29,13 +32,16 @@
 
 
     //next step, make class of Entity and then connect two clients.
-    $(document).ready(function() {
+    $(document).ready(function () {
+       
         var context = new Context('mycanvas');
         var entityRepository = new EntityRepository();
         //var input = new Input();
         var userId = makeid();
         var mouse_x = 0;
         var mouse_y = 0;
+
+        var client = new ClientEntity(userId, 50, 50);
      
         var connection = new WebSocket("ws://localhost:9001/ServerWebSocketHandler.ashx?userId=" + userId);
 
@@ -68,10 +74,12 @@
       
         function mainLoop() {
             context.clearRect();
-
+            client.setPosition(mouse_x, mouse_y); //this will be removed later.
+            client.update();
             entityRepository.update();
-            entityRepository.draw(context,userId);
 
+            client.draw(context);
+            entityRepository.draw(context,userId);
             context.drawCircle(mouse_x, mouse_y, 10, 'white');
         }
         setInterval(mainLoop, 30);
