@@ -16,12 +16,11 @@
 
         this.FRAME_BUFER_COUNT = 2;
         this.FRAMES_COUNT_PER_SERVER_TICKS = 7;
-    }
 
-    positionIsTheSame(x, y) {
-        return (x === this.x && y === this.y);
+        this.previous_x = x;
+        this.previous_y = y;
     }
-
+    
     update_velocity() {
 
         if (this.positions.length === 0) { return; }

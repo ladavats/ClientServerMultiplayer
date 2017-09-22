@@ -78,12 +78,11 @@
 
         //send to server.
         function send() {
-            connection.send(JSON.stringify({
-                    MessageType: "EntityPositionUpdateRequest",
-                    UserId: userId,
-                    X: mouse_x,
-                    Y: mouse_y
-                }));
+            //SKAPA  egen Client-koncept.
+            //if (entityRepository.entityPreviousPositionIsTheSame(userId, mouse_x, mouse_y) === false)
+                connection.send(JSON.stringify({ MessageType: "EntityPositionUpdateRequest", UserId: userId, X: mouse_x, Y: mouse_y }));
+
+            //entityRepository.setEntityPreviousPosition(userId, mouse_x, mouse_y);
         }
         setInterval(send, 100);
 

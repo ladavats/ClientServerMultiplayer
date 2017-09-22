@@ -47,12 +47,24 @@
         }
     }
 
-    clientPositionIsTheSame(userId, x, y) {
-        var client = this.getClientEntity(userId);
-        if (client === null)
-            return false;
 
-        return client.positionIsTheSame(userId, x, y);
+    setEntityPreviousPosition(userId, x, y) {
+        for (var i = 0; i < this.entities.length; i++) {
+            if (this.entities[i].userId === userId) {
+                this.entities[i].previous_x = x;
+                this.entities[i].previous_y = y;
+                continue;
+            }
+        }
+    }
+
+    entityPreviousPositionIsTheSame(userId,x,y) {
+        for (var i = 0; i < this.entities.length; i++) {
+            if (this.entities[i].userId === userId && this.entities[i].previous_x === x && this.entities[i].previous_y === y) {
+                return true;
+            }
+        }
+        return false;
     }
 
     getClientEntity(userId) {
