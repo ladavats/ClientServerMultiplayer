@@ -7,6 +7,10 @@
         this.context = this.canvas.getContext('2d');
     }
 
+    getCanvas() {
+        return this.canvas;
+    }
+
     clearRect() {
         this.context.clearRect(0, 0, 1000, 500);
     }
