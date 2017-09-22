@@ -6,6 +6,10 @@
         this.DRAW_CLIENT_ENTITY = false;
     }
 
+    nrOfEntities() {
+        return this.entities.length;
+    }
+
     entityExists(userId) {
         for (var i = 0; i < this.entities.length; i++) {
             if (this.entities[i].userId === userId) {

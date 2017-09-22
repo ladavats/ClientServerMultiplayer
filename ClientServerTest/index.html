@@ -9,6 +9,7 @@
     <script src="entity/entity.js"></script>
     <script src="entity/clientEntity.js"></script>
     <script src="entity/entityRepository.js"></script>
+    <script src="websocket/stats.js"></script>
     
     
     <style>
@@ -33,7 +34,9 @@
 
     //next step, make class of Entity and then connect two clients.
     $(document).ready(function () {
-       
+        var CLIENT_POSITION_UPDATE_FREQ_MS = 100;
+
+        var stats = new Stats(CLIENT_POSITION_UPDATE_FREQ_MS);
         var context = new Context('mycanvas');
         var entityRepository = new EntityRepository();
         //var input = new Input();
@@ -77,13 +80,16 @@
       
         function mainLoop() {
             context.clearRect();
+            stats.update(entityRepository.nrOfEntities());
             client.setPosition(mouse_x, mouse_y); //this will be removed later.
             client.update();
             entityRepository.update();
 
+            
             client.draw(context);
             entityRepository.draw(context,userId);
             context.drawCircle(mouse_x, mouse_y, 10, 'white');
+            stats.draw(context);
         }
         setInterval(mainLoop, 30);
 
@@ -95,7 +101,7 @@
 
             //entityRepository.setEntityPreviousPosition(userId, mouse_x, mouse_y);
         }
-        setInterval(send, 100);
+        setInterval(send, CLIENT_POSITION_UPDATE_FREQ_MS);
 
         function findPos(obj) {
             var curleft = 0, curtop = 0;
