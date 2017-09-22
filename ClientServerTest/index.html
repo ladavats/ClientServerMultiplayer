@@ -41,8 +41,6 @@
         var entityRepository = new EntityRepository();
         var input = new Input(context.getCanvas());
         var userId = makeid();
-        var mouse_x = 0;
-        var mouse_y = 0;
 
         var client = new ClientEntity(userId, 50, 50);
      
@@ -79,47 +77,31 @@
 
       
         function mainLoop() {
+            const mousePosition = input.getMousePosition();
+
             context.clearRect();
             stats.update(entityRepository.nrOfEntities());
-            client.setPosition(mouse_x, mouse_y); //this will be removed later.
+            client.setPosition(mousePosition.x, mousePosition.y); //this will be removed later.
             client.update();
             entityRepository.update();
 
             client.draw(context);
             entityRepository.draw(context,userId);
-            context.drawCircle(mouse_x, mouse_y, 10, 'white');
+            context.drawCircle(mousePosition.x, mousePosition.y, 10, 'white');
             stats.draw(context);
-
-            context.drawCircle(input.mouseX, input.mouseY, 25, 'cyan');
         }
         setInterval(mainLoop, 30);
 
         //send to server, but only if client moved.
         function send() {
-            if (client.newPositionIsNotTheSameAsPrevious(mouse_x, mouse_y)) {
-                connection.send(JSON.stringify({ MessageType: "EntityPositionUpdateRequest", UserId: userId, X: mouse_x, Y: mouse_y }));
-                client.setPreviousPosition(mouse_x, mouse_y);
+            const mousePosition = input.getMousePosition();
+            if (client.newPositionIsNotTheSameAsPrevious(mousePosition.x, mousePosition.y)) {
+                connection.send(JSON.stringify({ MessageType: "EntityPositionUpdateRequest", UserId: userId, X: mousePosition.x, Y: mousePosition.y }));
+                client.setPreviousPosition(mousePosition.x, mousePosition.y);
             } 
         }
         setInterval(send, CLIENT_POSITION_UPDATE_FREQ_MS);
 
-        function findPos(obj) {
-            var curleft = 0, curtop = 0;
-            if (obj.offsetParent) {
-                do {
-                    curleft += obj.offsetLeft;
-                    curtop += obj.offsetTop;
-                } while (obj = obj.offsetParent);
-                return { x: curleft, y: curtop };
-            }
-            return undefined;
-        }
-
-        $('#mycanvas').mousemove(function (e) {
-            var pos = findPos(this);
-            mouse_x = e.pageX - pos.x;
-            mouse_y = e.pageY - pos.y;
-        });
 
         $("body").keydown(function(e) {
             if (e.keyCode == 37) { // left
