@@ -34,7 +34,7 @@
 
     //next step, make class of Entity and then connect two clients.
     $(document).ready(function () {
-        var CLIENT_POSITION_UPDATE_FREQ_MS = 100;
+        const CLIENT_POSITION_UPDATE_FREQ_MS = 100;
 
         var stats = new Stats(CLIENT_POSITION_UPDATE_FREQ_MS);
         var context = new Context('mycanvas');
@@ -85,7 +85,6 @@
             client.update();
             entityRepository.update();
 
-            
             client.draw(context);
             entityRepository.draw(context,userId);
             context.drawCircle(mouse_x, mouse_y, 10, 'white');
@@ -93,13 +92,12 @@
         }
         setInterval(mainLoop, 30);
 
-        //send to server.
+        //send to server, but only if client moved.
         function send() {
-            //SKAPA  egen Client-koncept.
-            //if (entityRepository.entityPreviousPositionIsTheSame(userId, mouse_x, mouse_y) === false)
+            if (client.newPositionIsNotTheSameAsPrevious(mouse_x, mouse_y)) {
                 connection.send(JSON.stringify({ MessageType: "EntityPositionUpdateRequest", UserId: userId, X: mouse_x, Y: mouse_y }));
-
-            //entityRepository.setEntityPreviousPosition(userId, mouse_x, mouse_y);
+                client.setPreviousPosition(mouse_x, mouse_y);
+            } 
         }
         setInterval(send, CLIENT_POSITION_UPDATE_FREQ_MS);
 

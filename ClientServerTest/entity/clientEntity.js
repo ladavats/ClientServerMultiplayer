@@ -31,6 +31,15 @@
         this.y = y;
     }
 
+    newPositionIsNotTheSameAsPrevious(x, y) {
+        return (x !== this.previous_x || y !== this.previous_y);
+    }
+
+    setPreviousPosition(x, y) {
+        this.previous_x = x;
+        this.previous_y = y;
+    }
+
     draw(context) {
         context.drawCircle(this.x, this.y, 15, "blue"); //server interpolated entity
         //context.drawCircle(this.target_x, this.target_y, 10, "yellow"); //target position
