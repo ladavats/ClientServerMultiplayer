@@ -12,10 +12,12 @@ namespace Server.Entity
         public new string MessageType => this.GetType().ToString();
     }
 
-    public class EntityClosedResponse : WebSocketMessage
+    public class EntityDisconnectedResponse : WebSocketMessage
     {
-        public float X { get; set; }
-        public float Y { get; set; }
+        public EntityDisconnectedResponse(string userId)
+        {
+            this.UserId = userId;
+        }
         public new string MessageType => this.GetType().ToString();
     }
 }

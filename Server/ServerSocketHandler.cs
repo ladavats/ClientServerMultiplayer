@@ -59,6 +59,7 @@ namespace Server
         {
             EntityRepository.Close(UserId);
             Clients.Remove(this);
+            Clients.Broadcast(Serializer.Serialize(new EntityDisconnectedResponse(UserId)));
         }
     }
 }

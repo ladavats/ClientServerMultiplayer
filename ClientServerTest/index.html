@@ -50,6 +50,9 @@
             if (response.MessageType === "Server.Entity.EntitiesPositionsResponse") {
                 entityRepository.addEntityPositions(response.EntityPositions);
             }
+            else if (response.MessageType === "Server.Entity.EntityDisconnectedResponse") {
+                entityRepository.removeEntity(response.UserId);
+            }
         };
 
         $("#btnSend").click(function() {
