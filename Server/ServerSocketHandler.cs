@@ -50,6 +50,10 @@ namespace Server
                     var entityPositionUpdateRequest = JsonConvert.DeserializeObject<EntityPositionUpdateRequest>(message);
                     EntityRepository.UpdatePosition(entityPositionUpdateRequest);
                     break;
+                case "EntityMessageRequest":
+                    var entityMessageRequest = JsonConvert.DeserializeObject<EntityMessageRequest>(message);
+                    Clients.Broadcast(Serializer.Serialize(new EntityMessageResponse(entityMessageRequest.SendByUserId, entityMessageRequest.MessageText)));
+                    break;
                 default:
                     throw new Exception("Message Type Not Supported!");
             }

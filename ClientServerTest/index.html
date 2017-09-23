@@ -48,11 +48,16 @@
 
         connection.onmessage = function (message) {
             const response = JSON.parse(message.data);
-            if (response.MessageType === "Server.Entity.EntitiesPositionsResponse") {
+            switch (response.MessageType) {
+            case "Server.Entity.EntitiesPositionsResponse":
                 entityRepository.addEntityPositions(response.EntityPositions);
-            }
-            else if (response.MessageType === "Server.Entity.EntityDisconnectedResponse") {
+                break;
+            case "Server.Entity.EntityDisconnectedResponse":
                 entityRepository.removeEntity(response.UserId);
+                break;
+            case "Server.Entity.EntityMessageResponse":
+                entityRepository.addEntityMessage(response.SendByUserId, response.MessageText);
+                break;
             }
         };
 

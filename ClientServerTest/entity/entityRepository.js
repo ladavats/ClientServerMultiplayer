@@ -51,6 +51,15 @@
         }
     }
 
+    addEntityMessage(userId, message) {
+        for (var i = 0; i < this.entities.length; i++) {
+
+            if (this.entities[i].userId === userId) {
+                this.entities[i].addMessage(message);
+            }
+        }
+    }
+
     update() {
         for (var i = 0; i < this.entities.length; i++) {
             this.entities[i].update();

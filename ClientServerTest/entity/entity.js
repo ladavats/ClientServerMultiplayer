@@ -12,6 +12,7 @@
         this.target_y = y;
 
         this.positions = [];
+        this.messages = [];
         this.target_is_set = false;
 
         this.FRAME_BUFER_COUNT = 2;
@@ -74,6 +75,10 @@
         this.positions.unshift({ x: x, y: y });
     }
 
+    addMessage(message) {
+        this.messages.unshift(message);
+    }
+
     update() {
         this.update_velocity();
         this.update_movement();
@@ -84,5 +89,11 @@
         context.drawCircle(this.x, this.y, 15, "blue"); //server interpolated entity
         context.drawCircle(this.target_x, this.target_y, 10, "yellow"); //target position
         context.drawText(this.userId, this.x - 10, this.y - 30);
+
+        var rowIndex = -10;
+        for (var i = 0; i < this.messages.length; i++) {
+            context.drawText(this.messages[i], this.x + 25, this.y + rowIndex);
+            rowIndex += 20;
+        }
     }
 }
