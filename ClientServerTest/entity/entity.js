@@ -86,10 +86,13 @@
     }
 
     draw(context) {
+        //draw position
         context.drawCircle(this.x, this.y, 15, "blue"); //server interpolated entity
+        //draw target
         context.drawCircle(this.target_x, this.target_y, 10, "yellow"); //target position
+        //draw userId text
         context.drawText(this.userId, this.x - 10, this.y - 30);
-
+        //draw messages
         var rowIndex = -10;
         for (var i = 0; i < this.messages.length; i++) {
             context.drawText(this.messages[i], this.x + 25, this.y + rowIndex);
