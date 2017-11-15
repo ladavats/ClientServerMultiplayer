@@ -88,6 +88,10 @@
     <Content Include="transportation\boat.js" />
     <Content Include="transportation\airplane.js" />
     <Content Include="transportation\train.js" />
+    <Content Include="weather\fog.js" />
+    <Content Include="weather\rain.js" />
+    <Content Include="weather\snow.js" />
+    <Content Include="weather\weathercontroller.js" />
     <Content Include="Web.config" />
     <Content Include="websocket\stats.js" />
   </ItemGroup>
