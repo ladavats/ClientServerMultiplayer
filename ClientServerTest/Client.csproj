@@ -81,6 +81,13 @@
     <Content Include="entity\entityRepository.js" />
     <Content Include="index.html" />
     <Content Include="io\input.js" />
+    <Content Include="structures\apartment.js" />
+    <Content Include="structures\structureRepository.js" />
+    <Content Include="structures\skyscraper.js" />
+    <Content Include="structures\house.js" />
+    <Content Include="transportation\boat.js" />
+    <Content Include="transportation\airplane.js" />
+    <Content Include="transportation\train.js" />
     <Content Include="Web.config" />
     <Content Include="websocket\stats.js" />
   </ItemGroup>
