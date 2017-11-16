@@ -81,6 +81,11 @@
     <Content Include="entity\entityRepository.js" />
     <Content Include="index.html" />
     <Content Include="io\input.js" />
+    <Content Include="lib\Ball Line Collision V5 - alpha just tests Recursive.html" />
+    <Content Include="lib\math\math.js" />
+    <Content Include="lib\math\plane.js" />
+    <Content Include="lib\math\sPlane.js" />
+    <Content Include="lib\victor\victor.min.js" />
     <Content Include="structures\apartment.js" />
     <Content Include="structures\structureRepository.js" />
     <Content Include="structures\skyscraper.js" />
